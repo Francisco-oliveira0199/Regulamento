@@ -1,6 +1,6 @@
 /* =============================================================================
    PROJETO: Wild Clash - Regulamento (Estilos Globais e Específicos da Página)
-   VERSÃO: 1.0
+   VERSÃO: 2.0 - Adicionado sistema de aceitação
 ============================================================================= */
 
 /* ========== RESET BÁSICO ========== */
@@ -107,7 +107,7 @@ html, body {
 
 /* Área de rolagem das regras */
 .rules-container {
-    max-height: 70vh;
+    max-height: 60vh;
     overflow-y: auto;
     padding-right: 15px;
     margin-top: 20px;
@@ -196,13 +196,107 @@ html, body {
     color: var(--neon-cyan);
 }
 
+/* ========== SISTEMA DE PROGRESSO E ACEITAÇÃO ========== */
+.rules-controls {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.rules-progress {
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+    border-radius: 4px;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 10px rgba(0,234,255,0.5);
+}
+
+.progress-text {
+    font-size: 14px;
+    color: var(--text-muted);
+    display: block;
+    text-align: right;
+}
+
+.rules-acceptance {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-rules {
+    background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text-muted);
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: not-allowed;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.6;
+    width: auto;
+    min-width: 280px;
+    justify-content: center;
+}
+
+.btn-rules.enabled {
+    background: linear-gradient(90deg, rgba(0,234,255,0.15), rgba(255,45,117,0.15));
+    border-color: var(--neon-cyan);
+    color: white;
+    cursor: pointer;
+    opacity: 1;
+    box-shadow: 0 0 20px rgba(0,234,255,0.3);
+}
+
+.btn-rules.enabled:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(0,234,255,0.5);
+}
+
+.btn-rules.accepted {
+    background: linear-gradient(90deg, rgba(40,199,111,0.2), rgba(40,199,111,0.1));
+    border-color: var(--success);
+    color: var(--success);
+    cursor: default;
+    pointer-events: none;
+    opacity: 1;
+}
+
+.btn-icon {
+    font-size: 18px;
+}
+
 /* ========== RESPONSIVIDADE PARA MOBILE ========== */
 @media (max-width: 768px) {
     .rules-section {
         padding: 20px;
     }
     .rules-container {
-        max-height: 60vh;
+        max-height: 50vh;
+    }
+    .btn-rules {
+        padding: 12px 20px;
+        font-size: 14px;
+        min-width: 240px;
     }
 }
 
@@ -210,11 +304,15 @@ html, body {
     .neon-title {
         font-size: 28px;
     }
+    .btn-rules {
+        width: 100%;
+        min-width: auto;
+    }
 }
 
 @media (max-width: 360px) {
     .rules-container {
-        max-height: 55vh;
+        max-height: 45vh;
     }
 }
 

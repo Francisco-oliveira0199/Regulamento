@@ -1,0 +1,237 @@
+/* =============================================================================
+   PROJETO: Wild Clash - Regulamento (Estilos Globais e Específicos da Página)
+   VERSÃO: 1.0
+============================================================================= */
+
+/* ========== RESET BÁSICO ========== */
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+}
+
+html, body { 
+    height: 100%; 
+    background: #0b0b0b; 
+    color: #e6eef6; 
+    -webkit-font-smoothing: antialiased; 
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* ========== VARIÁVEIS DE COR ========== */
+:root {
+    --neon-cyan: #00eaff;
+    --neon-pink: #ff2d75;
+    --bg-deep: #0a0a0a;
+    --glass-bg: rgba(255,255,255,0.03);
+    --glass-border: rgba(255,255,255,0.06);
+    --text-muted: #b7c7d6;
+    --max-width: 1200px;
+    --gold: #ffd700;
+    --success: #28c76f;
+    --warning: #ffd166;
+    --danger: #ff6b6b;
+}
+
+/* ========== BACKGROUND ========== */
+#background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2a 100%);
+    filter: contrast(1.2) brightness(0.6);
+}
+
+/* ========== UTILITÁRIOS ========== */
+.glass {
+    background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(6px) saturate(140%);
+    border-radius: 14px;
+    box-shadow: 
+        0 6px 30px rgba(0,0,0,0.6), 
+        0 0 20px rgba(0,0,0,0.35) inset;
+    transition: all 0.3s ease;
+}
+
+.glass:hover {
+    border-color: rgba(255,255,255,0.1);
+    box-shadow: 
+        0 8px 40px rgba(0,0,0,0.8),
+        0 0 0 1px rgba(255,255,255,0.05);
+}
+
+/* ========== CONTEÚDO PRINCIPAL ========== */
+.page-wrap {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.rules-section {
+    padding: 30px;
+    margin: 20px 0;
+}
+
+.neon-title {
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    color: white;
+    text-shadow:
+        0 0 6px rgba(0,234,255,0.15),
+        0 0 18px rgba(255,45,117,0.06);
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.neon-title::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -12px;
+    width: 120px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+    border-radius: 2px;
+    filter: blur(6px);
+    opacity: 0.9;
+}
+
+/* Área de rolagem das regras */
+.rules-container {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-right: 15px;
+    margin-top: 20px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--neon-cyan) rgba(255,255,255,0.1);
+}
+
+.rules-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.rules-container::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+}
+
+.rules-container::-webkit-scrollbar-thumb {
+    background: var(--neon-cyan);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,234,255,0.5);
+}
+
+.rules-content {
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.rules-content h3 {
+    color: white;
+    font-size: 26px;
+    margin: 30px 0 20px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.rules-content h4 {
+    color: var(--neon-cyan);
+    font-size: 22px;
+    margin: 25px 0 15px;
+    border-left: 4px solid var(--neon-pink);
+    padding-left: 15px;
+}
+
+.rules-content h5 {
+    color: #ffd700;
+    font-size: 18px;
+    margin: 20px 0 10px;
+}
+
+.rules-content p {
+    margin-bottom: 15px;
+}
+
+.rules-content ul {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+.rules-content li {
+    margin-bottom: 5px;
+}
+
+.rules-content span {
+    display: block;
+    margin: 15px 0;
+    padding: 10px;
+    background: rgba(255,45,117,0.1);
+    border-left: 3px solid var(--neon-pink);
+    font-weight: 600;
+    color: white;
+}
+
+.rules-end {
+    margin-top: 40px;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.rules-end p {
+    color: var(--text-muted);
+}
+
+.rules-end strong {
+    color: var(--neon-cyan);
+}
+
+/* ========== RESPONSIVIDADE PARA MOBILE ========== */
+@media (max-width: 768px) {
+    .rules-section {
+        padding: 20px;
+    }
+    .rules-container {
+        max-height: 60vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .neon-title {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 360px) {
+    .rules-container {
+        max-height: 55vh;
+    }
+}
+
+/* ========== ANIMAÇÕES ========== */
+@keyframes subtleGlow {
+    0% { filter: drop-shadow(0 0 4px rgba(0,234,255,0.06)); }
+    50% { filter: drop-shadow(0 0 10px rgba(255,45,117,0.08)); }
+    100% { filter: drop-shadow(0 0 4px rgba(0,234,255,0.06)); }
+}
+
+.neon-title { 
+    animation: subtleGlow 6s infinite ease-in-out; 
+}
+
+/* ========== ACESSIBILIDADE ========== */
+a:focus, button:focus {
+    outline: 2px solid rgba(0,234,255,0.3);
+    outline-offset: 3px;
+    border-radius: 8px;
+}

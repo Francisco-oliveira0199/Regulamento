@@ -1,19 +1,37 @@
 // =============================================================================
 // PROJETO: Wild Clash - Regulamento (JavaScript)
 // DESCRIÇÃO: Sistema de rolagem para aceitação das regras (sem redirecionamento)
+// VERSÃO: 2.1 - Correção de bugs e logs de depuração
 // =============================================================================
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM carregado, iniciando script...');
+
     // Elementos
     const rulesScroll = document.getElementById('rules-scroll');
     const rulesProgress = document.getElementById('rules-progress');
     const rulesProgressText = document.getElementById('rules-progress-text');
     const btnAceitar = document.getElementById('btn-aceitar-regras');
     
-    if (!rulesScroll || !btnAceitar) {
-        console.warn('Elementos necessários não encontrados');
+    // Verificação de elementos
+    if (!rulesScroll) {
+        console.error('Elemento #rules-scroll não encontrado!');
         return;
     }
+    if (!rulesProgress) {
+        console.error('Elemento #rules-progress não encontrado!');
+        return;
+    }
+    if (!rulesProgressText) {
+        console.error('Elemento #rules-progress-text não encontrado!');
+        return;
+    }
+    if (!btnAceitar) {
+        console.error('Elemento #btn-aceitar-regras não encontrado!');
+        return;
+    }
+    
+    console.log('Todos os elementos encontrados:', { rulesScroll, rulesProgress, rulesProgressText, btnAceitar });
     
     let hasReadRules = false;
     
@@ -21,24 +39,24 @@ document.addEventListener('DOMContentLoaded', function() {
     btnAceitar.disabled = true;
     btnAceitar.classList.remove('enabled', 'accepted');
     
-    // Evento de scroll
-    rulesScroll.addEventListener('scroll', function() {
-        const scrollTop = this.scrollTop;
-        const scrollHeight = this.scrollHeight - this.clientHeight;
+    // Função para atualizar a barra de progresso
+    function updateProgress() {
+        const scrollTop = rulesScroll.scrollTop;
+        const scrollHeight = rulesScroll.scrollHeight - rulesScroll.clientHeight;
         let scrollPercentage = 0;
         
         if (scrollHeight > 0) {
             scrollPercentage = Math.min(100, Math.round((scrollTop / scrollHeight) * 100));
+        } else {
+            // Se não há necessidade de rolar, considera 100%
+            scrollPercentage = 100;
         }
         
         // Atualiza barra de progresso
-        if (rulesProgress) {
-            rulesProgress.style.width = scrollPercentage + '%';
-        }
+        rulesProgress.style.width = scrollPercentage + '%';
+        rulesProgressText.textContent = scrollPercentage + '% lido';
         
-        if (rulesProgressText) {
-            rulesProgressText.textContent = scrollPercentage + '% lido';
-        }
+        console.log('Scroll percentual:', scrollPercentage, 'hasReadRules:', hasReadRules, 'btnAceitar class:', btnAceitar.className);
         
         // Se atingiu 95% ou mais, habilita o botão (se ainda não foi aceito)
         if (scrollPercentage >= 95 && !hasReadRules && !btnAceitar.classList.contains('accepted')) {
@@ -50,12 +68,24 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Animação sutil
             btnAceitar.style.animation = 'pulse 2s infinite';
+            
+            console.log('Botão habilitado!');
         }
-    });
+    }
+    
+    // Evento de scroll
+    rulesScroll.addEventListener('scroll', updateProgress);
+    
+    // Verifica imediatamente após o carregamento (caso o conteúdo já seja todo visível)
+    setTimeout(() => {
+        console.log('Verificação inicial após 500ms');
+        updateProgress();
+    }, 500);
     
     // Clique no botão de aceitar
     btnAceitar.addEventListener('click', function(e) {
         e.preventDefault();
+        console.log('Botão clicado. disabled:', btnAceitar.disabled, 'classList:', btnAceitar.classList);
         
         // Só executa se estiver habilitado e não aceito ainda
         if (!btnAceitar.disabled && !btnAceitar.classList.contains('accepted')) {
@@ -65,8 +95,10 @@ document.addEventListener('DOMContentLoaded', function() {
             btnAceitar.disabled = true; // Mantém disabled para não clicar novamente
             btnAceitar.style.animation = 'none';
             
-            // Altera o texto (opcional)
+            // Altera o texto
             btnAceitar.innerHTML = '<span class="btn-icon">✓</span><span class="btn-text">Regras aceitas!</span>';
+            
+            console.log('Regras aceitas!');
             
             // NÃO redireciona – apenas permanece na página com feedback visual
         }
@@ -89,19 +121,4 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         };
     });
-    
-    // Forçar verificação inicial (caso o conteúdo seja pequeno)
-    setTimeout(() => {
-        const scrollHeight = rulesScroll.scrollHeight - rulesScroll.clientHeight;
-        if (scrollHeight <= 0) {
-            // Conteúdo não precisa rolar, já está totalmente visível
-            hasReadRules = true;
-            btnAceitar.disabled = false;
-            btnAceitar.classList.add('enabled');
-            btnAceitar.classList.remove('accepted');
-            
-            if (rulesProgress) rulesProgress.style.width = '100%';
-            if (rulesProgressText) rulesProgressText.textContent = '100% lido';
-        }
-    }, 500);
 });

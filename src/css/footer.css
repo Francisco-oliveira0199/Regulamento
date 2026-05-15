@@ -102,6 +102,10 @@
     border: 2px solid #ff0000;
 }
 
+.social-btn.twitch {
+    background: linear-gradient(135deg, #9146FF, #772ce8);
+}
+
 .footer .social-icon {
     width: 35px;
     height: 35px;

@@ -37,7 +37,6 @@
     transform: scale(1.05);
 }
 
-/* Responsividade do header */
 @media (max-width: 768px) {
     .header {
         width: calc(100% - 30px);

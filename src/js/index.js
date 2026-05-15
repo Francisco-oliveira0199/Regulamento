@@ -1,7 +1,7 @@
 // =============================================================================
 // PROJETO: Wild Clash - Regulamento (JavaScript)
 // DESCRIÇÃO: Sistema de rolagem para aceitação das regras (sem redirecionamento)
-// VERSÃO: 2.1 - Correção de bugs e logs de depuração
+// VERSÃO: 2.2 - Progresso travado em 100% após aceitação
 // =============================================================================
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -34,6 +34,9 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Todos os elementos encontrados:', { rulesScroll, rulesProgress, rulesProgressText, btnAceitar });
     
     let hasReadRules = false;
+
+    // 🆕 NOVA VARIÁVEL PARA TRAVAR O PROGRESSO
+    let rulesAccepted = false;
     
     // Inicialmente desabilitado
     btnAceitar.disabled = true;
@@ -41,6 +44,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Função para atualizar a barra de progresso
     function updateProgress() {
+
+        // 🆕 SE JÁ ACEITOU AS REGRAS, NÃO ALTERA MAIS O PROGRESSO
+        if (rulesAccepted) return;
+
         const scrollTop = rulesScroll.scrollTop;
         const scrollHeight = rulesScroll.scrollHeight - rulesScroll.clientHeight;
         let scrollPercentage = 0;
@@ -76,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Evento de scroll
     rulesScroll.addEventListener('scroll', updateProgress);
     
-    // Verifica imediatamente após o carregamento (caso o conteúdo já seja todo visível)
+    // Verifica imediatamente após o carregamento
     setTimeout(() => {
         console.log('Verificação inicial após 500ms');
         updateProgress();
@@ -89,18 +96,24 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Só executa se estiver habilitado e não aceito ainda
         if (!btnAceitar.disabled && !btnAceitar.classList.contains('accepted')) {
-            // Marca como aceito
+
+            // 🆕 MARCA COMO ACEITO
+            rulesAccepted = true;
+
+            // 🆕 FORÇA BARRA PARA 100%
+            rulesProgress.style.width = '100%';
+            rulesProgressText.textContent = '100% lido';
+            
+            // Marca visualmente como aceito
             btnAceitar.classList.remove('enabled');
             btnAceitar.classList.add('accepted');
-            btnAceitar.disabled = true; // Mantém disabled para não clicar novamente
+            btnAceitar.disabled = true;
             btnAceitar.style.animation = 'none';
             
             // Altera o texto
             btnAceitar.innerHTML = '<span class="btn-icon">✓</span><span class="btn-text">Regras aceitas!</span>';
             
             console.log('Regras aceitas!');
-            
-            // NÃO redireciona – apenas permanece na página com feedback visual
         }
     });
     
